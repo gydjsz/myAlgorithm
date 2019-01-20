@@ -32,9 +32,9 @@ int main(){
 	if(wei <= 10)
 		sum = 0.8 * wei + 0.2;
 	else if(wei <= 20)
-		sum = 0.75 * wei + 0.2;
+		sum = 8 + 0.75 * (wei - 10) + 0.2;
 	else if(wei <= 30)
-		sum = 0.7 * wei + 0.2;
+		sum = 15.5 + 0.7 * (wei - 20) + 0.2;
 	else
 		sum = -1;
 	if(sum == -1)

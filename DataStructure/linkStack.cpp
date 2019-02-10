@@ -14,8 +14,8 @@ typedef struct Stack {
 }Stack, *PStack;
 
 void init(PStack s) {
-	s = (PStack)malloc(sizeof(Stack));
-	PNode pNew = (PNode)malloc(sizeof(Node));
+	s = new Stack();
+	PNode pNew = new Node();
 	if (s == NULL || pNew == NULL) {
 		printf("新节点空间分配失败!");
 		exit(-1);
@@ -27,7 +27,7 @@ void init(PStack s) {
 }
 
 int push(PStack s, ELementType n) {
-	PNode p = (PNode)malloc(sizeof(Node));
+	PNode p = new Node();
 	if (p == NULL) {
 		printf("内存空间分配失败!\n");
 		exit(-1);
@@ -39,15 +39,15 @@ int push(PStack s, ELementType n) {
 	return 0;
 }
 
-int pop(PStack s, ELementType *n) {
+int pop(PStack s, ELementType &n) {
 	if (s->PBottom == s->PTop) {
 		printf("出栈失败，栈为空!\n");
 		return 0;
 	}
 	PNode p = s->PTop;
-	*n = p->data;
+	n = p->data;
 	s->PTop = s->PTop->next;
-	free(p);
+	delete p;
 	return 0;
 }
 
@@ -70,18 +70,21 @@ bool isEmpty(PStack s) {
 
 int main() {
 	PStack stack;
+	stack = new Stack();
 	init(stack);
 	push(stack, 1);
 	push(stack, 2);
 	push(stack, 3);
 	push(stack, 4);
 	push(stack, 5);
-	ELementType n = 0;
-	while (!isEmpty(stack)) {
-		pop(stack, &n);
-		printf("%d ", n);
-	}
-	printf("\n");
+
+	int n = 0;
+	pop(stack, n);
+	printf("%d\n", n);
+	n = getTop(stack);
+	printf("%d\n", n);
+
+	delete stack;
 	return 0;
 }
 

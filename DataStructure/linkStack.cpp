@@ -65,7 +65,6 @@ bool isEmpty(PStack s) {
 		return true;
 	}
 	return false;
-
 }
 
 int main() {

@@ -3,6 +3,7 @@
 #define MAXSIZE 100
 #define success 1
 #define fail 0
+
 typedef int ElementType;
 
 struct Stack {

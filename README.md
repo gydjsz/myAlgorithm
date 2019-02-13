@@ -1,9 +1,9 @@
 # 算法学习之路
 
-## noi题库
+## 一、noi题库
 [noi题目](noi)
 
-## 数据结构
+## 二、数据结构
 1. 链表
 [LinkList](DataStructure/LinkList)
 

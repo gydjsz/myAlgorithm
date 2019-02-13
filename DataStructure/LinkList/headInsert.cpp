@@ -45,8 +45,7 @@ void output(PNode list) {
 }
 
 int mainList() {
-	PNode list;
-	list = new Node();
+	PNode list = new Node();
 	init(list);
 	insert(list, 1);
 	insert(list, 2);

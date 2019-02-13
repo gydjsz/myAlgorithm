@@ -57,5 +57,6 @@ int main() {
 	deleteData(list, 4);
 	output(list);
 
+	delete list;
 	return 0;
 }

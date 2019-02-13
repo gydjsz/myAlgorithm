@@ -43,7 +43,7 @@ int popQueue(LinkQueue queue){
 	Queue q = queue -> front -> next;
 	queue -> front -> next = q -> next;
 	if(queue -> rear == q)   //如果没有这个，那么当队列为空时，rear是空指针
-		queue -> rear = queue -> front;
+		queue -> rear = queue -> front = NULL;
 	delete q;
 }
 

@@ -17,7 +17,7 @@ void init(PStack s) {
 	s = new Stack();
 	PNode pNew = new Node();
 	if (s == NULL || pNew == NULL) {
-		printf("新节点空间分配失败!");
+		printf("内存空间分配失败!");
 		exit(-1);
 	}
 	s->PTop = pNew;

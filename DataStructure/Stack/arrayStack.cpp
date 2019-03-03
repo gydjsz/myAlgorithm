@@ -42,7 +42,7 @@ bool isEmpty(Stack s) {
 
 ElementType getTop(Stack s) {
 	if (s.top == -1) {
-		printf("栈为");
+		printf("栈为空");
 		return fail;
 	}
 	return s.a[s.top];

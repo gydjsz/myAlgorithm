@@ -31,11 +31,12 @@ const int M = 100;
 
 //矩阵相乘
 mat mul(mat &A, mat &B){
-	mat C(A.size(), vec(B[0].size()));
+	//Ｃ默认值为0
+	mat C(A.size(), vec(B[0].size()));   //A.size()是矩阵的行，B[0].size()是矩阵的列, n * m 矩阵　和　m * k矩阵相乘之后，新矩阵为n * k
 	for(int i = 0; i < A.size(); i++)
-		for(int j = 0; j < A.size(); j++)
-			for(int k = 0; k < A.size(); k++)
-				C[i][j] += A[i][k] * B[k][j];
+		for(int j = 0; j < B.size(); j++)   //B.size()是矩阵的行，也就是A[0].size()
+			for(int k = 0; k < B[0].size(); k++)
+				C[i][j] += A[i][k] * B[k][j];  //新矩阵当前值=矩阵A的当前行 * 矩阵B的当前列的和
 	return C;
 }
 
@@ -65,8 +66,36 @@ int Fibonacci(int n){
 }
 
 int main(){
-	/*
-	// 求矩阵Ａ的ｍ次方
+	/* //求矩阵Ａ× Ｂ
+	int ax, ay, bx, by;
+	cin >> ax >> ay >> bx >> by;
+	//A(M, vec(M))是vector的组合，就是一个vector中的数据是vector<int>,每个vector<int>存储整数值，可以理解为一个二维数组
+	//vec中存储vec1,vec2,vec3,vec4, 而vec1中存储1, 2, 3, 4
+	//vec: vec1  vec2  vec3  vec4
+	//     1     1     1     1
+	//     2     2     2     2
+	//     3     3     3     3
+	//     4     4     4     4
+	mat A(M, vec(M)), B(M, vec(M));
+	
+
+	for(int i = 0; i < ax; i++)
+		for(int j = 0; j < ay; j++)
+			cin >> A[i][j];
+
+	for(int i = 0; i < bx; i++)
+		for(int j = 0; j < by; j++)
+			cin >> B[i][j];
+
+	mat C = mul(A, B);
+	for(int i = 0; i < ax; i++){
+		for(int j = 0; j < by; j++)
+			cout << C[i][j] << " ";
+		cout << endl;
+	}
+	*/
+
+	/* // 求矩阵Ａ的ｍ次方
 	int n, m;
 	cin >> n >> m;   //ｎ为矩阵的阶，ｍ为幂次
 	mat A(M, vec(M));
@@ -78,8 +107,7 @@ int main(){
 		for(int j = 0; j < n; j++)
 			cout << B[i][j] << " ";
 		cout << endl;
-	}
-	*/
+	} */
 
 	//求斐波那切数列	
 	int n;

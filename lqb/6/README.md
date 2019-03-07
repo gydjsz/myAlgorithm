@@ -26,6 +26,27 @@
 思路：后四个数可选0 ~ 9除去4，共9个数，第一个数可选1 ~ 9除去4，共8个数，所有没有4的总数为：
 8 * 9 * 9 * 9 * 9 = 52488
 
+代码：
+```cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+	string s;
+	int sum = 0;
+	int i, j;
+	for(i = 10000; i <= 99999; i++){
+		s = to_string(i);
+		for(j = 0; j < s.length(); j++)
+			if(s[j] == '4') break;
+		if(j == s.length())
+			sum++;
+	}
+	cout << sum << endl;
+	return 0;
+}
+```
+
 答案：52488
 ---
 

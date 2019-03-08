@@ -34,12 +34,10 @@
 
 ```cpp
 #include <iostream>
-#include <cstring>
 using namespace std;
 
 int main(){
 	int a = 0, s = 0;
-	memset(a, 0, sizeof(a));
 	for(int i = 1; i <= 100; i++){   //递推计算数列
 		a += i;   //求an
 		s += a;   //累加ai

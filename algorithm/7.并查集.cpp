@@ -14,7 +14,7 @@ void init(int n){
 }
 
 int find(int v){
-	return father[v] == v ? v : find(father[v]);   //找到元素的最高一级指挥官
+	return father[v] = father[v] == v ? v : find(father[v]);   //找到元素的最高一级指挥官
 }
 
 void join(int x, int y){

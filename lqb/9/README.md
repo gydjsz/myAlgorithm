@@ -59,7 +59,6 @@
 
 **解:
 思路: 每行两个字节，每一个字节存储一个整数，可以先将整数转化为8位二进制，负数的二进制需要+2^n(这里n为8),然后用除k取余法求得整数对应的二进制，然后1输出 * , 0输出空格,每画完两个整数换行
-
 最终输出为 九的九次方等于多少?**
 
 代码1:
@@ -129,7 +128,7 @@ int main(){
 	return 0;
 }
 ```
-答案: 387420489
+**答案: 387420489**
 
 ---
 
@@ -471,6 +470,7 @@ ts id
 CPU消耗  < 1000ms
 
 [https://blog.csdn.net/qq_34202873/article/details/79835686](https://blog.csdn.net/qq_34202873/article/details/79835686)
+
 ---
 
 
@@ -580,4 +580,5 @@ CPU消耗  < 1000ms
 CPU消耗  < 1000ms
 
 [https://blog.csdn.net/qq_34202873/article/details/79835790](https://blog.csdn.net/qq_34202873/article/details/79835790)
+
 ---

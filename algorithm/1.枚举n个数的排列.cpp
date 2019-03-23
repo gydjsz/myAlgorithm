@@ -16,6 +16,7 @@ int permutation(int k, int n, int perm[]){
 		return 0;
 	}
 	for(int i = k; i < n; i++){
+		if(i != k && perm[i] == perm[k]) continue;    //除本身外，如果交换的两个数相同，则跳过
 		swap(perm[i], perm[k]);   
 		permutation(k + 1, n, perm);   //递归进行排列
 		swap(perm[i], perm[k]);        //恢复原来的位置

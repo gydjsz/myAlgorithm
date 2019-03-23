@@ -401,7 +401,7 @@ CPU消耗  < 1000ms
 **解:
 思路: 先将左下角的一条边旋转90°，得到
 
-![](9/1.png)
+<img src="9/1.png" width="50%" height="50%"/>
 
 将输入的x和y比较大小，将大的数n作为最外层正方形的边，起点为(-n, -n), 计算(x, y)和(-n, -n)的距离d1 = x - n, d2 = y - n, 当y > x时，点在左部和上部, 最外层的边数为d1 + d2 (也就是走过的边); 当y < x时，点在右部和下部，最外层的边数为总边数8 * n - (d1 + d2)  (也就是总边减去没有经过的边),内层边为8 * 1, 8 * 2, 8 * 3, 8 * 4... => 8 * (n * (n - 1) / 2) => 4 * n * (n - 1), 最后求和sum + d**
 
@@ -471,6 +471,7 @@ ts id
 CPU消耗  < 1000ms
 
 [https://blog.csdn.net/qq_34202873/article/details/79835686](https://blog.csdn.net/qq_34202873/article/details/79835686)
+---
 
 
 [<span id = "9">全球变暖</span>](#0) 
@@ -526,8 +527,10 @@ CPU消耗  < 1000ms
 资源约定：
 峰值内存消耗（含虚拟机） < 256;M
 CPU消耗  < 1000ms
+
 [https://blog.csdn.net/holly_Z_P_F/article/details/88727693](https://blog.csdn.net/holly_Z_P_F/article/details/88727693)
 
+---
 [<span id = "10">乘积最大</span>](#0) 
 
 给定N个整数A1, A2, ... AN。请你从中选出K个数，使其乘积最大。  
@@ -577,3 +580,4 @@ CPU消耗  < 1000ms
 CPU消耗  < 1000ms
 
 [https://blog.csdn.net/qq_34202873/article/details/79835790](https://blog.csdn.net/qq_34202873/article/details/79835790)
+---

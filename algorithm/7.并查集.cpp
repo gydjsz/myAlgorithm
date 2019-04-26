@@ -21,7 +21,7 @@ void join(int x, int y){
 	x = find(x);
 	y = find(y);
 	if(height[x] < height[y])    //把等级低的放等级高的下面
-		father[x] =father[y];
+		father[x] = father[y];
 	else{
 		father[y] = x;               // 如果后者等级高，那么将等级低的归自己管
 		if(height[x] == height[y])   //如果两者等级相等，那么当把同等级的归自己管，而自己等级需+1

@@ -40,7 +40,6 @@ int getNum(double &x, double &y){
 	while(s[i] != '\0')
 		s1 += s[i++];
 
-		
 	ss << s1;
 	ss >> y;
 
@@ -54,23 +53,41 @@ int main(){
 	getNum(x1, y1);
 	getNum(x2, y2);
 	getNum(x3, y3);
-
-	double k1 = (y2 - y1) / (x2 - x1);
-	int flag = 1;
-
-	if(k1 > 0){
-		if(x2 - x1 >= 0 && y2 - y1 >= 0){
-			double y = y1 + k1 * (x3 - x1);
-			if(y3 < y)
+	int flag = 0;  //right
+	if(x1 == x2){
+		if(y1 > y2){
+			if(x3 < x1)
+				flag = 0;
+			else
+				flag = 1;
+		}
+		else{
+			if(x3 < x1)
+				flag = 1;
+			else
+				flag = 0;
+		}
+	}
+	else{
+		double k = (y2 - y1) / (x2 - x1);
+		double y = k * (x3 - x1) + y1;
+		if(x1 < x2){
+			if(y3 > y)
+				flag = 1; 
+			else
 				flag = 0;
 		}
 		else{
-		
+			if(y3 > y)
+				flag = 0;
+			else
+				flag = 1;
 		}
-	
 	}
-
-
+	if(flag)
+		cout << "left" << endl;
+	else
+		cout << "right" << endl;
 	return 0;
 }
 

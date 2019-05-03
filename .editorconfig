@@ -8,5 +8,11 @@ indent_size = 4
 max_line_length = on
 max_line_length = 80
 
+end_of_line = lf
+insert_final_newline = true
 
-
+charset = utf-8
+# 一行最多80个字，防止单行字数过多影响阅读
+max_line_length = 80
+# 自动删除行尾空格
+trim_trailing_whitespace = true

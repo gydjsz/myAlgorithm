@@ -39,63 +39,75 @@ n 行，每行一个整数表示该组样例中第一次最多能搬砖的数量
 6
 */
 
-#include <iostream> 
-#include <cstring>
+#include <iostream>
 #include <algorithm>
+#include <cstring>
 using namespace std;
 
 int n;
+int amount;
 
-struct Brick{
-	int x;
-	int y;
-	int z;
-}brick[50];
+struct Rectangle{
+	int width;
+	int height;
+}rectangle[100];
 
-int order(int &x, int &y, int &z){
-	int t;
-	if(x > y){
-		t = x;
-		x = y;
-		y = t;
-	}
-	if(y > z){
-		t = y;
-		y = z;
-		z = t;
-	}
+int getRectangle(int L, int W, int H){
+	rectangle[amount].width = L > W ? W : L;
+	rectangle[amount++].height = L > W ? L : W;
+
+	rectangle[amount].width = L > H ? H : L;
+	rectangle[amount++].height = L > H ? L : H;
+
+	rectangle[amount].width = W > H ? H : W;
+	rectangle[amount++].height = W > H ? W : H;
 	return 0;
-} 
+}
 
-bool cmp(Brick a, Brick b){
-	if(a.x == b.x){
-		if(a.y == b.y)
-			return a.z < b.z;
-		return a.y < b.y;
+bool judge(int i, int j){
+	if(rectangle[i].width > rectangle[j].width && rectangle[i].height > rectangle[j].height){
+		return true;
 	}
-	return a.x < b.x;
+	return false;
+}
+
+bool cmp(Rectangle a, Rectangle b){
+	if(a.width == b.width)
+		return a.height < b.height;
+	return a.width < b.width;
 }
 
 int solve(){
-	memset(brick, 0, sizeof(brick));
-	int x, y, z;
+	amount = 0;
+	memset(rectangle, 0, sizeof(rectangle));
+	int dp[100];
+	memset(dp, 0, sizeof(dp));
+	int L, W, H;
+	int j = 0;
 	for(int i = 0; i < n; i++){
-		cin >> x >> y >> z;
-		order(x, y, z);
-		brick[i].x = x;
-		brick[i].y = y;
-		brick[i].z = z;
+		cin >> L >> W >> H;
+		getRectangle(L, W, H);
 	}
-	sort(brick, brick + n, cmp);
-	for(int i = 0; i < n; i++)
+	int res = 0;
+	sort(rectangle, rectangle + amount, cmp);
+	for(int i = 0; i < amount; i++){
+		dp[i] = 1;
+		for(int j = 0; j < i; j++){
+			if(judge(i, j)){
+				dp[i] = max(dp[i], dp[j] + 1);
+			}
+		}
+		res = max(res, dp[i]);
+	}
+	cout << res << endl;
 	return 0;
 }
+
 
 int main(){
 	while(cin >> n && n != 0){
 		solve();
 	}
-	
-
-    return 0;
+	return 0;
 }
+

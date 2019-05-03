@@ -26,58 +26,80 @@ n输入为0时表示结束。
 #include <cstring>
 #include <iostream>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
 typedef long long ll;
-
+typedef vector<int> vec;
 const int MAXSIZE = 100;
-int a[MAXSIZE];
-int visit[MAXSIZE];
 int n;
-int len, amount, aim;
+int len;
+int amount;
+vec tree;
+vec visit(MAXSIZE, 0);
+int flag;
+int differ;
 
-bool dfs(int am, int i, int le){
-	if(len < le) return false;
-	if(amount == am) return true;
-	if(len == le) return dfs(am + 1, 0, 0);
+int init(){
+	tree.assign(MAXSIZE, 0);
+	visit.assign(MAXSIZE, 0);
+	len = 0;
+	amount = 0;
+	flag = 0;
+	differ = 0;
+	return 0;
+}
+
+int dfs(int i, int am, int L){
+	if(flag) return true;  //如果已经找到m根树枝，直接返回true
+	if(amount == am){   //如果满足找到的数量和m相等，标记flag,并返回true
+		flag = 1;
+		return true;
+	}
+	if(L == len) return dfs(0, am + 1, 0);   //可以拼出L长度的树枝，继续找
+	if(len - L > differ) return false;    //如果剩余的树枝总长比还需要的树枝长度少，返回false
+	if(L + tree[n - 1] > len) return false;   //如果当前长度加上最小的树枝长比想要的长度大，返回false
 	for(int j = i; j < n; j++){
-		if(!visit[j] && le + a[j] <= len){
+		if(!visit[j] && tree[j] + L <= len){
 			visit[j] = 1;
-			if(dfs(am, i + 1, le + a[j])) return true;
+			differ -= tree[j];  //记录还剩的长度
+			if(dfs(j + 1, am, tree[j] + L)) return true;  
 			visit[j] = 0;
-			if(i == 0) return false;
-			while(i + 1 < n && a[i] == a[i + 1]) i++;
+			differ += tree[j];
+			if(i == 0) return false;   //如果第一次拼不出来，以后的树枝都拼不出来
+			while(j + 1 < n && tree[j] == tree[j + 1]) j++;  //如果后面的树枝长度和当前一样长，那么跳过
 		}
 	}
-	return false;
+	return 0;
 }
 
 int solve(){
-	memset(a, 0, sizeof(a));
+	int x;
 	int sum = 0;
 	for(int i = 0; i < n; i++){
-		cin >> a[i];
-		sum += a[i];
+		cin >> x;
+		tree.push_back(x);
+		sum += x;
 	}
-	sort(a, a + n, greater<int>());
+	differ = sum;
+	sort(tree.begin(), tree.end(), greater<int>());
 	for(int i = n; i >= 1; i--){
 		if(sum % i == 0){
-			memset(visit, 0, sizeof(visit));
-			amount = i;
 			len = sum / i;
+			amount = i;
 			if(dfs(0, 0, 0)){
-				aim = len;
-				break;
+				cout << len << endl;
+				return 0;
 			}
 		}
 	}
-	cout << aim << endl;
 	return 0;
 }
 
 int main(){
 	while(cin >> n && n != 0){
-		solve();
+		init();
+		solve();	
 	}
     return 0;
 }

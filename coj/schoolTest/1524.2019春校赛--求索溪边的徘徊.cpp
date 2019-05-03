@@ -62,48 +62,175 @@ There are 8 routes from node 1 to node 4.
 */
 
 #include <iostream>
+#include <vector>
+#include <cstring>
 using namespace std;
 
-int map[50][50];
-int visit[100];
-int path[1000][100];
-int p;
-int n;
+typedef vector<int> vec;
+const int MAXSIZE = 100;
+
+int map[MAXSIZE][MAXSIZE];
+int visit[MAXSIZE];
+vec path;
 int k;
+int node;
+int amount;
+int count;
 
 int dfs(int i){
-	if(i == k){
-		int j = 0;
-		for(int i = 0; i < n; i++){
-			if(visit[i])
-				path[p][j++] = i;
-		}
-		p++;
-		return 0;
-	}
-	for(int j = 1; j <= n; i++){
+	if(i == k)
+		return true;
+	for(int j = 0; j <= node; j++){
 		if(!visit[j] && map[i][j] == 1){
 			visit[j] = 1;
-			dfs(j);
-			visit[j] = 0;
+			if(dfs(j)) return true;
 		}
 	}
+	return false;
+}
+
+int search(int i){
+	if(i == k){
+		amount++;
+		for(int j = 0; j < path.size() - 1; j++)
+			cout << path[j] << " ";
+		cout << path[path.size() - 1] << endl;
+		return 0;
+	}
+	for(int j = 0; j <= node; j++){
+		if(!visit[j] && map[i][j] == 1){
+			visit[j] = 1;
+			path.push_back(j);
+			search(j);
+			visit[j] = 0;
+			path.pop_back();
+		}
+	}
+	return 0;
+}
+
+int solve(){
+	memset(map, 0, sizeof(map));
+	memset(visit, 0, sizeof(visit));
+	path.clear();
+	amount = 0;
+	count++;
+	int x, y;
+	node = k;
+	while(cin >> x >> y, x || y){
+		map[x][y] = 1;
+		map[y][x] = 1;
+		node = max(node, max(x, y));
+	}
+	cout << "CASE " << count << ":" << endl;
+	visit[1] = 1;
+	if(dfs(1)){
+		memset(visit, 0, sizeof(visit));
+		visit[1] = 1;
+		path.push_back(1);
+		search(1);
+	}
+	cout << "There are " << amount << " routes from node 1 to node " << k << "." << endl;
 	return 0;
 }
 
 int main(){
-	cin >> k;
-	int x, y;
-	while(cin >> x >> y && x != 0 && y != 0){
-		map[x][y] = 1;
-		map[y][x] = 1;
-		n = max(n, x);
-		n = max(n, y);
+	while(cin >> k){
+		solve();
 	}
-	dfs(1);
-	for(int i = 0; i < p; i++)
-		for(int j = 0; j < n; j++)
-			if(path[i][j] != 0)
-				cout << path[i][j] << " ";
 	return 0;
 }
+
+/*
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+const int N = 21;
+
+int n, k;
+vector<int> neigh[N];
+int v[N];
+int path_count;
+vector<int> path;
+
+bool dfs(int u)
+{
+    if (u == k) return true;
+
+    for (int i = 0; i < neigh[u].size(); i++) {
+        if (!v[neigh[u][i]]) {
+            int x = neigh[u][i];
+            v[x] = 1;
+            if (dfs(x)) return true;
+        }
+    }
+    return false;
+}
+
+void find_path()
+{
+    path_count++;
+    for (int i = 0; i < path.size(); i++)
+        printf("%d%c", path[i], i == path.size()-1 ? '\n' : ' ');
+}
+
+void search(int u)
+{
+    if (u == k) { find_path(); return; }
+
+    for (int i = 0; i < neigh[u].size(); i++) {
+        if (!v[neigh[u][i]]) {
+            int x = neigh[u][i];
+            v[x] = 1;
+            path.push_back(x);
+            search(x);
+            path.resize(path.size()-1);
+
+            v[x] = 0;
+        }
+    }
+}
+
+int main()
+{
+    int kase = 0;
+    while (scanf("%d", &k) != EOF) {
+        int a, b;
+        int G[N][N];
+        memset(G, 0, sizeof(G));
+        n = k;
+        while (scanf("%d%d", &a, &b), a || b) {
+            n = max(n, max(a, b));
+            G[a][b] = G[b][a] = 1;
+        }
+        for (int i = 1; i <= n; i++) {
+            neigh[i].clear();
+            for (int j = 1; j <= n; j++) {
+                if (G[i][j]) neigh[i].push_back(j);
+            }
+        }
+
+        printf("CASE %d:\n", ++kase);
+        memset(v, 0, sizeof(v));
+        v[1] = 1;
+        path_count = 0;
+        if (dfs(1)) {
+            path.clear();
+            memset(v, 0, sizeof(v));
+            v[1] = 1;
+            path.push_back(1);
+            search(1);
+        }
+//	cout << "There are " << p << " routes from node 1 to node " << k << "." << endl;
+		printf("There are %d routes from node 1 to node %d.\n", path_count, k);
+
+    }       
+
+    return 0;
+}
+*/
+

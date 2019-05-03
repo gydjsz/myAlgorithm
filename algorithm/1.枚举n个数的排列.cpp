@@ -8,6 +8,13 @@ int swap(int &a, int &b){   //交换数组中两个元素位置
 	return 0;
 }
 
+bool judge(int start, int end, int perm[]){   //判断交换的种类是否有重复，有重复则不交换
+	for(int i = start; i < end; i++)
+		if(perm[i] == perm[end])
+			return false;
+	return true;
+}
+
 int permutation(int k, int n, int perm[]){
 	if(k == n - 1){
 		for(int i = 0; i < n; i++)   //输出一个排列
@@ -16,10 +23,11 @@ int permutation(int k, int n, int perm[]){
 		return 0;
 	}
 	for(int i = k; i < n; i++){
-		if(i != k && perm[i] == perm[k]) continue;    //除本身外，如果交换的两个数相同，则跳过
-		swap(perm[i], perm[k]);   
-		permutation(k + 1, n, perm);   //递归进行排列
-		swap(perm[i], perm[k]);        //恢复原来的位置
+		if(judge(k, i, perm)){
+			swap(perm[i], perm[k]);   
+			permutation(k + 1, n, perm);   //递归进行排列
+			swap(perm[i], perm[k]);        //恢复原来的位置
+		}
 	}
 	return 0;
 }

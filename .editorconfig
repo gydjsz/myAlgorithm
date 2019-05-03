@@ -5,3 +5,8 @@ root = true
 [*]
 indent_style = tab
 indent_size = 4
+
+# Unix-style newlines with a newline ending every file(换行符，还有cr\crlf)
+[*]
+end_of_line = lf
+insert_final_newline = true

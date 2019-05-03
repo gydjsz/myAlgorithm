@@ -34,6 +34,24 @@ Id:[1528]
 3
 */
 
+/*
+ *思路：树状数组
+ 树状数组可以求:
+ 1. a1 + a2 + a3 + ... + an 的和
+ 2. ai + x 更改序列中某一个数的值
+
+ 这题将A, B两种树分别用树状数组来求，对于输入的L, R, 可以将其转化为相应数组中的位置
+ 对于偶数:
+ L = L % 2 == 0 ? L / 2 : (L + 1) / 2;
+ R = R % 2 == 0 ? R / 2 : (R - 1) / 2;
+
+ 对于奇数:
+ L = L % 2 == 0 ? L / 2 + 1 : (L + 1) / 2;
+ R = R % 2 == 0 ? R / 2 : (R + 1) / 2;
+
+ *
+ */
+
 #include <stdio.h>
 #include <string.h>
 
@@ -67,9 +85,10 @@ int main(){
 	memset(b, 0, sizeof(b));
 	ll x;
 	int ak = 1, bk = 1;
+	//分别用a、b数组存下A种树和B种树
 	for(int i = 1; i <= n; i++){
 		scanf("%lld", &x);
-		if(i % 2 == 0)
+		if(i % 2 == 0)  
 			add(ak++, n / 2, x, a);
 		else
 			add(bk++, (n + 1) / 2, x, b);
@@ -80,13 +99,15 @@ int main(){
 	for(int i = 0; i < m; i++){
 		ll sum = 0;
 		scanf("%d", &p);
-		if(p == 0){
+		if(p == 0){  //需要查询
 			int L, R, type;
 			scanf("%d%d%d", &L, &R, &type);
 			ll sum = 0;
-			if(type == 0){
+			if(type == 0){ //A种树区间的小鸟数
+				//位置转化
 				L = L % 2 == 0 ? L / 2 : (L + 1) / 2;
 				R = R % 2 == 0 ? R / 2 : (R - 1) / 2;
+				//由于计算的是[L, R]区间的，此时可以用sum[1, R] - sum[1, L - 1]
 				sum = getSum(R, a) - getSum(L - 1, a);
 			}
 			else{

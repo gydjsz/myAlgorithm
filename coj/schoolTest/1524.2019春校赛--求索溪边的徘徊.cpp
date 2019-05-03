@@ -61,6 +61,104 @@ CASE 2:
 There are 8 routes from node 1 to node 4.
 */
 
+/*
+ *这题用dfs搜索图的所有路径，由于是从1~n逐个搜索，所以搜索出的结果已经是字典序，可以直接输出，这题坑点在于，图的点可以为0, 比如1 0 6(被卡了很久很久).可以先判断能否从1到k, 用简单的dfs, 从1开始遍历能到达k直接返回
+ *
+ */
+
+
+//邻接表
+#include <iostream>
+#include <vector>
+#include <cstring>
+using namespace std;
+
+typedef vector<int> vec;
+const int MAXSIZE = 100;
+int map[MAXSIZE][MAXSIZE];
+int visit[MAXSIZE];
+vec node[MAXSIZE];
+vec path;
+int k;
+int n;
+int amount;
+int count;
+
+int dfs(int i){
+	if(i == k) return true;
+	for(int j = 0; j < node[i].size(); j++){
+		if(!visit[node[i][j]]){
+			int x = node[i][j];
+			visit[x] = 1;
+			if(dfs(x)) return true;
+		}
+	}
+	return 0;
+}
+
+int search(int i){
+	if(i == k){
+		amount++;
+		for(int j = 0; j < path.size() - 1; j++)
+			cout << path[j] << " ";
+		cout << path[path.size() - 1] << endl;
+		return 0;
+	}
+	for(int j = 0; j < node[i].size(); j++){
+		if(!visit[node[i][j]]){
+			int x = node[i][j];
+			visit[x] = 1;
+			path.push_back(x);
+			search(x);
+			visit[x] = 0;
+			path.pop_back();
+		}
+	}
+	return 0;
+}
+
+int solve(){
+	memset(map, 0, sizeof(map));
+	memset(visit, 0, sizeof(visit));
+	path.clear();
+	amount = 0;
+	count++;
+	n = k;
+	int x, y;
+	while(cin >> x >> y, x || y){
+		map[x][y] = 1;
+		map[y][x] = 1;
+		n = max(n, max(x, y));
+	}
+	cout << "CASE " << count << ":" << endl;
+	for(int i = 0; i <= n; i++){
+		node[i].clear();
+		for(int j = 0; j <= n; j++){
+			if(map[i][j])
+				node[i].push_back(j);
+		}
+	}
+	visit[1] = 1;
+	if(dfs(1)){
+		memset(visit, 0, sizeof(visit));
+		visit[1] = 1;
+		path.push_back(1);
+		search(1);
+	}
+	cout << "There are " << amount << " routes from node 1 to node " << k << "." << endl;
+	return 0;
+}
+
+int main(){
+	while(cin >> k){
+		solve();
+	}
+	return 0;
+}
+
+
+//邻接矩阵
+/*
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -69,14 +167,16 @@ using namespace std;
 typedef vector<int> vec;
 const int MAXSIZE = 100;
 
-int map[MAXSIZE][MAXSIZE];
-int visit[MAXSIZE];
-vec path;
-int k;
-int node;
-int amount;
-int count;
+int map[MAXSIZE][MAXSIZE];   //存储图
+int visit[MAXSIZE];    //记录是否访问过
+vec path;   //记录路径
+int k;      //记录终点
+int node;   //记录最大的结点
+int amount;  //记录路径总数
+int count;   //记录样例
 
+
+//简单的dfs，搜索从1到k是否存在路径
 int dfs(int i){
 	if(i == k)
 		return true;
@@ -92,6 +192,7 @@ int dfs(int i){
 int search(int i){
 	if(i == k){
 		amount++;
+		//找到一条路径后直接输出
 		for(int j = 0; j < path.size() - 1; j++)
 			cout << path[j] << " ";
 		cout << path[path.size() - 1] << endl;
@@ -120,12 +221,12 @@ int solve(){
 	while(cin >> x >> y, x || y){
 		map[x][y] = 1;
 		map[y][x] = 1;
-		node = max(node, max(x, y));
+		node = max(node, max(x, y));  //最大结点即为图的大小
 	}
 	cout << "CASE " << count << ":" << endl;
 	visit[1] = 1;
 	if(dfs(1)){
-		memset(visit, 0, sizeof(visit));
+		memset(visit, 0, sizeof(visit));  //dfs后改变了visit, 需要初始化
 		visit[1] = 1;
 		path.push_back(1);
 		search(1);
@@ -139,98 +240,6 @@ int main(){
 		solve();
 	}
 	return 0;
-}
-
-/*
-#include<cstdio>
-#include<cstring>
-#include<iostream>
-#include<algorithm>
-#include<vector>
-using namespace std;
-
-const int N = 21;
-
-int n, k;
-vector<int> neigh[N];
-int v[N];
-int path_count;
-vector<int> path;
-
-bool dfs(int u)
-{
-    if (u == k) return true;
-
-    for (int i = 0; i < neigh[u].size(); i++) {
-        if (!v[neigh[u][i]]) {
-            int x = neigh[u][i];
-            v[x] = 1;
-            if (dfs(x)) return true;
-        }
-    }
-    return false;
-}
-
-void find_path()
-{
-    path_count++;
-    for (int i = 0; i < path.size(); i++)
-        printf("%d%c", path[i], i == path.size()-1 ? '\n' : ' ');
-}
-
-void search(int u)
-{
-    if (u == k) { find_path(); return; }
-
-    for (int i = 0; i < neigh[u].size(); i++) {
-        if (!v[neigh[u][i]]) {
-            int x = neigh[u][i];
-            v[x] = 1;
-            path.push_back(x);
-            search(x);
-            path.resize(path.size()-1);
-
-            v[x] = 0;
-        }
-    }
-}
-
-int main()
-{
-    int kase = 0;
-    while (scanf("%d", &k) != EOF) {
-        int a, b;
-        int G[N][N];
-        memset(G, 0, sizeof(G));
-        n = k;
-        while (scanf("%d%d", &a, &b), a || b) {
-            n = max(n, max(a, b));
-            G[a][b] = G[b][a] = 1;
-        }
-        for (int i = 1; i <= n; i++) {
-            neigh[i].clear();
-            for (int j = 1; j <= n; j++) {
-                if (G[i][j]) neigh[i].push_back(j);
-            }
-        }
-
-        printf("CASE %d:\n", ++kase);
-        memset(v, 0, sizeof(v));
-        v[1] = 1;
-        path_count = 0;
-        if (dfs(1)) {
-            path.clear();
-            memset(v, 0, sizeof(v));
-            v[1] = 1;
-            path.push_back(1);
-            search(1);
-        }
-//	cout << "There are " << p << " routes from node 1 to node " << k << "." << endl;
-		printf("There are %d routes from node 1 to node %d.\n", path_count, k);
-
-    }       
-
-    return 0;
 }
 */
 

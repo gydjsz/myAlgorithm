@@ -35,6 +35,12 @@ __0
 6
 */
 
+/*
+ * 思路：只要末尾为0或5,那么这个数就能被5整除.对于每一个末尾为0或5的数字串来说，它的情况数为
+ * 2^n, 这个n就是这个末尾前面有多少个数，比如1235, 情况数为2^3.此时只需要求出每一个0和5前面有多少个数就行了.对于k次重复的数来说，可以先求出母串s中0和5前面的数字个数，然后它第k次重复得到的数字个数为n + (k - 1) * length, n为前面数字的个数，k为重复的次数，length为母串的长度。最后对这些情况求和就行了。比如01254, 母串中0和5前面数字的个数分别为0, 3, 重复第2次为0125401254, 第2次的0和5前面数字的个数分别为0 + 1 * 5 = 5, 3 + 1 * 5 = 8, 总的情况数为2^0 + 2^3 + 2^5 + 2^8
+ *
+ */
+
 #include <iostream> 
 #include <cstring>
 #include <sstream>
@@ -43,7 +49,7 @@ using namespace std;
 typedef long long ll;
 const int MOD = 1000000007;
 
-ll f_pow(ll x, ll n){
+ll f_pow(ll x, ll n){   //快速幂求2 ^ n
 	if(n < 0)
 		return 0;
 	ll res = 1;
@@ -62,13 +68,13 @@ int solve(){
 	ll b[100005];
 	memset(b, 0, sizeof(b));
 	int bk = 0, x = 0;
-	for(int i = 0; i < s.length(); i++){
+	for(int i = 0; i < s.length(); i++){   //遍历母串，求母串中0和5前面数字的个数
 		if(s[i] == '0' || s[i] == '5')
 			b[bk++] = x;
 		x++;
 	}
 	ll sum = 0;
-	for(int i = 0; i < bk; i++){
+	for(int i = 0; i < bk; i++){  //对于每一个母串中0和5，求重复k次之后的情况数
 		for(int j = 0; j < k; j++){
 			sum = (sum + f_pow(2, b[i] + j * s.length())) % MOD;
 		}

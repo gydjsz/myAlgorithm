@@ -29,6 +29,8 @@ Id:[1527]
 5040
 */
 
+//求全排列总数n!, 由于圈可以旋转，旋转算一种，除以n, 最后就是(n - 1)!
+
 #include <iostream> 
 using namespace std;
 

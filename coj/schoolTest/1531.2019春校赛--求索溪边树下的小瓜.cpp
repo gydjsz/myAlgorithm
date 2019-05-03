@@ -13,6 +13,18 @@ Id:[1531]
 0.50
 */
 
+
+/*
+ *
+ *思路：极坐标系求出C点的坐标，然后用海伦公式得到三角形的面积
+ x = R * cos(k - $\theta$)
+ y = R * sin(k - $\theta$)
+
+ k - $\theta$ 为C点相对于x轴转的角度
+
+ *
+ */
+
 #include <iostream> 
 #include <cmath>
 #include <iomanip>
@@ -25,12 +37,17 @@ int main(){
 	cin >> x1 >> y1;
 	cin >> x2 >> y2;
 	cin >> k;
+	//AB边
 	double AB = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+
+	//求C点的坐标
 	double R = sqrt(x2 * x2 + y2 * y2);
 	double x3 = R * (cos(k) * x2 / R + sin(k) * y2 / R);
 	double y3 = R * (sin(k) * x2 / R - cos(k) * y2 / R);
+	
 	double BC = sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));
 	double AC = sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));
+	//海伦公式
 	double p = (AB + BC + AC) / 2;
 	double S = sqrt(p * (p - AB) * (p - BC) * (p - AC));
 	cout << fixed << setprecision(2) << S << endl;

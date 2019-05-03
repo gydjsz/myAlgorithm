@@ -39,6 +39,11 @@ n 行，每行一个整数表示该组样例中第一次最多能搬砖的数量
 6
 */
 
+/*
+ *思路：由于每一种砖不限个数，那么对于同一种砖，就只有三种情况，而由于后面一个砖要放上去，必须满足长宽小于前面一个砖，所以同一种砖不能放超过2个，因为假如有砖a, b, c(a < b < c), 则ab bc ac,最多可以用ab bc两个砖, 因此在输入的时候先对砖的长宽高排序，再构造该砖的三种情况，30种砖就转化为90个砖，对该90个砖排序，就可以使用最长上升子序列来做
+ *
+ */
+
 #include <iostream>
 #include <algorithm>
 #include <cstring>
@@ -52,6 +57,7 @@ struct Rectangle{
 	int height;
 }rectangle[100];
 
+//构造砖
 int getRectangle(int L, int W, int H){
 	rectangle[amount].width = L > W ? W : L;
 	rectangle[amount++].height = L > W ? L : W;
@@ -89,7 +95,8 @@ int solve(){
 		getRectangle(L, W, H);
 	}
 	int res = 0;
-	sort(rectangle, rectangle + amount, cmp);
+	sort(rectangle, rectangle + amount, cmp);  //对砖从小到大排序
+	//最长上升子序列
 	for(int i = 0; i < amount; i++){
 		dp[i] = 1;
 		for(int j = 0; j < i; j++){

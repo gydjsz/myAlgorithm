@@ -22,6 +22,7 @@ Id:[182]
 #include <cstring>
 using namespace std;
 
+/*
 int getNum(int &a, int &b, string s){
 	int n;
 	int i = 0;
@@ -34,6 +35,7 @@ int getNum(int &a, int &b, string s){
 		b = b * 10 + (s[i++] - '0');
 	return 0;
 }
+*/
 
 int main(){
 	int n;
@@ -43,9 +45,9 @@ int main(){
 	int x, y;
 	int m = 0;
 	for(int i = 0; i < n; i++){
-		string s;
-		cin >> s;
-		getNum(x, y, s);
+		char s;
+		cin >> x >> s >> y;
+		//getNum(x, y, s);
 		a[x]++;
 		a[y + 1]--;
 		m = max(m, y);

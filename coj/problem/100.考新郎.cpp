@@ -21,22 +21,26 @@ N M
 #include <iostream> 
 using namespace std;
 
+typedef long long ll;
+
+ll c(ll n){
+	if(n == 1)
+		return 1;
+	return n * c(n - 1);
+}
+
 int main() {
 	int n, m;
 	cin >> n >> m;
-	long long f[1000];
-	f[1] = 0;
-	f[2] = 1;
-	for(int i = 3; i <= m; i++)
-		f[i] = (i - 1) * (f[i - 1] + f[i - 2]);
-	long long s1 = 1;
-	long long s2 = 1;
-	int t = n - m > m ? m : n - m;
-	for(int i = 1; i <= t; i++){
-		s1 *= n--;
+	ll p, q, r;
+	p = 0;
+	q = 1;
+	for(int i = 3; i <= m; i++){
+		r = (i - 1) * (p + q);
+		p = q;
+		q = r;
 	}
-	for(int i = 1; i <= m; i++)
-		s2 *= i;
-	cout << s1 / s2 * f[m] << endl;
+	ll t = n - m > m ? m : n - m;
+	cout << c(n) / (c(t) * c(m)) * q << endl;
     return 0;
 }
